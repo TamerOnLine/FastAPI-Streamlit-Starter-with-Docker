@@ -1,0 +1,30 @@
+services:
+  streamlit:
+    build: ./app  
+    ports:
+      - "8501:8501"
+    environment:
+      STREAMLIT_HOST: "0.0.0.0"
+      STREAMLIT_PORT: "8501"
+    volumes:
+      - ./app:/app  
+    networks:
+      - app_network
+    depends_on:
+      - fastapi  
+
+  fastapi:
+    build: ./main
+    ports:
+      - "8000:8000"
+    environment:
+      FASTAPI_HOST: "0.0.0.0"
+      FASTAPI_PORT: "8000"
+    volumes:
+      - ./main:/app
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
