@@ -1,2 +1,79 @@
+
+# Python-specific
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+*.venv
+env/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Editor-specific
+*.swp
+*.swo
+*.swn
+.idea/
+.vscode/
 *.code-workspace
+
+# Log files
+*.log
+*.out
+*.err
+
+# OS-specific
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+.Trashes
+*.~lock.*
+
+# Docker-related
+docker-compose.override.yml
+docker-compose.override.yaml
+**/db_data/
+**/pg_data/
+**/init.sql
+
+# Coverage files
+.coverage
+*.cover
+htmlcov/
+
+# Testing-related
+.cache/
+pytestdebug.log
+
+# Build files
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Secrets
 .env
+.env.*
+*.key
+*.crt
+
+# FastAPI-specific
+alembic/
+migrations/
+
+# Streamlit-specific
+.streamlit/
+
+# Ignore compiled Jupyter Notebook outputs
+.ipynb_checkpoints/
+
+# Temporary files and directories
+tmp/
+temp/
+*.tmp
+
+*.code-workspace
+
