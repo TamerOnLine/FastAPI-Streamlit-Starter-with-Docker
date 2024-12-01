@@ -1,6 +1,8 @@
 services:
   streamlit:
-    build: ./app  
+    build: ./app 
+    image: streamlit:latest
+    container_name: streamlit_container
     ports:
       - "8501:8501"
     environment:
@@ -15,6 +17,8 @@ services:
 
   fastapi:
     build: ./main
+    image: fastapi:latest
+    container_name: fastapi_container
     ports:
       - "8000:8000"
     environment:
