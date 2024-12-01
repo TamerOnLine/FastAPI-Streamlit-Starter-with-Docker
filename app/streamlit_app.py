@@ -1,21 +1,36 @@
+# app.py
+
 import streamlit as st
-import requests
-
-st.title("Streamlit Application")
-
-st.write("This is a simple Streamlit app running in a Docker container.")
-
-name = st.text_input("Enter a name:")
-
-if name:
-    try:
-
-        response = requests.post("http://fastapi:8000/add_name", json={"name": name})
-        if response.status_code == 200:
-            st.write(f"Name received: {response.json()['name_received']}")
-        else:
-            st.write("Error sending data to FastAPI")
-    except requests as e:
-        st.write(f"Err: {e}")
+import psycopg2
 
 
+def get_db_connection():
+    conn = psycopg2.connect(
+        host="db",  
+        database="postgres",  
+        user="postgres",  
+        password="password"  
+    )
+    return conn
+
+# إضافة بيانات مستخدم
+st.title('Add User Data')
+
+name = st.text_input('Name')
+email = st.text_input('Email')
+age = st.number_input('Age', min_value=0)
+
+if st.button('Submit'):
+    if name and email:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("INSERT INTO user_data (name, email, age) VALUES (%s, %s, %s)", (name, email, age))
+        conn.commit()
+        
+        cursor.close()
+        conn.close()
+        
+        st.success('User data added successfully!')
+    else:
+        st.error('Please fill in all fields')

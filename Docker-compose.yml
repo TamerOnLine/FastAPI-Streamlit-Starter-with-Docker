@@ -8,6 +8,8 @@ services:
     environment:
       STREAMLIT_HOST: "0.0.0.0"
       STREAMLIT_PORT: "8501"
+      DATABASE_URL: "postgresql://postgres:password@db:5432/postgres"
+
     volumes:
       - ./app:/app  
     networks:
@@ -24,6 +26,8 @@ services:
     environment:
       FASTAPI_HOST: "0.0.0.0"
       FASTAPI_PORT: "8000"
+      DATABASE_URL: "postgresql://postgres:password@db:5432/postgres"
+
     volumes:
       - ./main:/app
     networks:
