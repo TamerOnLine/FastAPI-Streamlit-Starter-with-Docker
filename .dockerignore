@@ -1,0 +1,64 @@
+# Ignore Python cache files and directories
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Ignore virtual environments
+.venv/
+venv/
+env/
+
+# Ignore editor and IDE specific files
+.idea/
+.vscode/
+*.code-workspace
+
+# Ignore logs and debug files
+*.log
+*.out
+*.err
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+.Trashes
+*.~lock.*
+
+# Ignore build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Ignore tests and temporary files
+.cache/
+*.tmp
+tmp/
+temp/
+pytestdebug.log
+
+# Ignore environment and secret files
+.env
+.env.*
+*.key
+*.crt
+
+# Ignore Docker-related temporary files
+docker-compose.override.yml
+docker-compose.override.yaml
+
+# Ignore Streamlit settings
+.streamlit/
+
+# Ignore specific application directories
+db_data/
+pg_data/
+migrations/
+alembic/
+
+# Ignore unnecessary documentation files
+*.md~
