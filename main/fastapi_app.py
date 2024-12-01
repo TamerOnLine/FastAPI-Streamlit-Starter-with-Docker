@@ -1,7 +1,7 @@
 # main.py
 
 from fastapi import FastAPI
-from db import get_db_connection
+from db.connection import get_db_connection
 import psycopg2
 import json
 
@@ -12,6 +12,7 @@ async def add_user(name: str, email: str, age: int):
     conn = get_db_connection()
     cursor = conn.cursor()
     
+    # إدخال البيانات في جدول المستخدمين
     cursor.execute("INSERT INTO user_data (name, email, age) VALUES (%s, %s, %s)", (name, email, age))
     conn.commit()
     
@@ -19,4 +20,5 @@ async def add_user(name: str, email: str, age: int):
     conn.close()
     
     return {"message": "User added successfully!"}
+
 

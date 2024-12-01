@@ -1,13 +1,14 @@
 # db/connection.py
-
 import psycopg2
-from psycopg2 import sql
+import os
 
 def get_db_connection():
     conn = psycopg2.connect(
-        host="localhost",
-        database="your_database",
-        user="your_user",
-        password="your_password"
+        host="db",  # اسم الخدمة التي تم تحديدها في docker-compose.yml
+        database=os.getenv("POSTGRES_DB"),  # تحميل المتغير من البيئة (من .env أو docker-compose.yml)
+        user=os.getenv("POSTGRES_USER"),  # تحميل المتغير من البيئة
+        password=os.getenv("POSTGRES_PASSWORD")  # تحميل المتغير من البيئة
     )
     return conn
+
+

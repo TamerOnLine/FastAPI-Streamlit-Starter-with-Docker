@@ -2,14 +2,15 @@
 
 import streamlit as st
 import psycopg2
+import os
 
-
+# الاتصال بقاعدة البيانات
 def get_db_connection():
     conn = psycopg2.connect(
-        host="db",  
-        database="postgres",  
-        user="postgres",  
-        password="password"  
+        host="db",  # اسم الخدمة في docker-compose
+        database=os.getenv("POSTGRES_DB"),
+        user=os.getenv("POSTGRES_USER"),
+        password=os.getenv("POSTGRES_PASSWORD")
     )
     return conn
 
