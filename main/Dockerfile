@@ -10,7 +10,7 @@ COPY . .
 
 EXPOSE 8000
 
-ENTRYPOINT [ "uvicorn", "fastapi:app" ]
+ENTRYPOINT [ "uvicorn", "fastapi_app:app" ]
 
 CMD ["--host", "0.0.0.0", "--port", "8000"]
 
