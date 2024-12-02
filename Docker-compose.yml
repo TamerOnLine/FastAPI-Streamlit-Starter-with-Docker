@@ -1,62 +1,42 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  # خدمة Streamlit
-  streamlit:
-    build:
-      context: ./app
-    image: streamlit:latest
-    container_name: streamlit_container
-    depends_on:
-      - db
-      - fastapi
-    ports:
-      - "8501:8501"
-    environment:
-      STREAMLIT_HOST: "0.0.0.0"
-      STREAMLIT_PORT: "8501"
-      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+  db:
+    image: postgres:latest
+    env_file:
+      - .env
     volumes:
-      - ./app:/app
+      - ./db-init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
     networks:
       - app_network
 
-  # خدمة FastAPI
-  fastapi:
+  backend:
     build:
-      context: ./main
-    image: fastapi:latest
-    container_name: fastapi_container
+      context: ./backend
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    networks:
+      - app_network
     depends_on:
       - db
     ports:
       - "8000:8000"
-    environment:
-      FASTAPI_HOST: "0.0.0.0"
-      FASTAPI_PORT: "8000"
-      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
-    volumes:
-      - ./main:/app
+
+  frontend:
+    build:
+      context: ./frontend
     networks:
       - app_network
-
-  # خدمة قاعدة البيانات PostgreSQL
-  db:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}          # تحميل المتغير من .env
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # تحميل المتغير من .env
-      POSTGRES_DB: ${POSTGRES_DB}              # تحميل المتغير من .env
-      PGDATA: /var/lib/postgresql/data/pgdata  # تحديد المسار
+    depends_on:
+      - backend
     ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - app_network
-
-volumes:
-  postgres_data:
+      - "8501:8501"
 
 networks:
   app_network:
