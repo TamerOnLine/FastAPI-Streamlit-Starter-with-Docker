@@ -23,3 +23,11 @@ def get_db_connection():
         password=db_password
     )
     return conn
+
+# Test connection
+try:
+    conn = get_db_connection()
+    print("Connection successful!")
+    conn.close()
+except Exception as e:
+    print(f"Connection failed: {e}")

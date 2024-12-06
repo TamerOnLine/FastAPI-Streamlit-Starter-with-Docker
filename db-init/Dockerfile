@@ -1,23 +1,20 @@
-# Use the PostgreSQL base image
-FROM postgres:latest
+# Use a specific PostgreSQL image version
+FROM postgres:15
 
-# Install Python and pip
-RUN apt-get update && apt-get install -y python3 python3-pip
+# Set environment variables (use default if not provided)
+ENV POSTGRES_USER=${POSTGRES_USER:-default_user}
+ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-default_password}
+ENV POSTGRES_DB=${POSTGRES_DB:-default_db}
 
-# Copy database initialization scripts
-COPY ./db-init /docker-entrypoint-initdb.d/
 
-# Copy the requirements file
-COPY ./requirements.txt /app/requirements.txt
+# Copy SQL initialization script
+COPY . /docker-entrypoint-initdb.d/
 
-# Install the required Python libraries
-RUN pip3 install --no-cache-dir -r /app/requirements.txt
+# Add secure authentication to pg_hba.conf
+RUN echo "host all all 0.0.0.0/0 md5" >> /var/lib/postgresql/data/pg_hba.conf
 
-# Set the working directory
-WORKDIR /app
-
-# Copy the remaining project files
-COPY . /app
-
-# Expose the default PostgreSQL port
+# Expose PostgreSQL port
 EXPOSE 5432
+
+# Run PostgreSQL
+CMD ["postgres"]

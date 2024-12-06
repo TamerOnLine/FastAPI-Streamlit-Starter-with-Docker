@@ -1,36 +1,25 @@
-# Variables
-DOCKER_IMAGE_NAME = postgres-db
-DOCKER_CONTAINER_NAME = my-postgres-db
-DOCKER_BUILD_CONTEXT = .
-PYTHON_MAIN_FILE = connection.py
+# Create the network
+network:
+	docker network create app_network || true
 
-# Build Docker image
-build:
-	docker-compose build
+# Build the PostgreSQL image
+build-postgres:
+	docker build -t postgres_secure ./db-init
 
-# Run services
+# Build the Python application image
+build-python:
+	docker build -t python_app ./my_python_app
+
+# Start containers
 up:
 	docker-compose up -d
 
-# Stop services
-down:
+# Stop containers
+stop:
 	docker-compose down
 
-# View logs
-logs:
-	docker-compose logs -f db
-
-# Install Python dependencies
-install-deps:
-	pip install -r requirements.txt
-
-# Run Python script
-run-script:
-	python $(PYTHON_MAIN_FILE)
-
-# Cleanup Docker
+# Clean up containers, volumes, and network
 clean:
 	docker system prune -f
-	docker volume prune -f
-
-.PHONY: build up down logs install-deps run-script clean
+	docker volume rm postgres_data || true
+	docker network rm app_network || true

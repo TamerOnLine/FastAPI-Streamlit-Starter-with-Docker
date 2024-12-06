@@ -1,14 +1,8 @@
-# db.py
+from db import get_db_connection
 
-import psycopg2
-from psycopg2 import sql
-
-
-def get_db_connection():
-    conn = psycopg2.connect(
-        host="db",  
-        database="postgres",  
-        user="postgres",  
-        password="password"  
-    )
-    return conn
+# Example usage
+try:
+    with get_db_connection() as conn:
+        print("Connection established!")
+except Exception as e:
+    print(f"Connection error: {e}")
